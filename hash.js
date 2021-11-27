@@ -1,26 +1,29 @@
-let fs = require('fs')
-let agr = process.argv
-let inputString = fs.readFileSync('input.txt').toString()
-let subString = agr[2]
+let fs = require('fs');
+let agr = process.argv;
+let inputString = fs.readFileSync('input.txt').toString();
+let subString = agr[2];
 
 let getHash = function (inputString) {
-    let hash = 0
+    let hash = 0;
     for (let i = 0; i < inputString.length; i++) {
-        hash += Math.pow(inputString.charCodeAt(i), 2)
+        hash += Math.pow(inputString.charCodeAt(i), 2);
     }
-    return hash
+    return hash;
 }
 
 for (let i = 0; i < inputString.length; i++) {
-    let flag = 0
+    let flag = 1;
     if (getHash(subString) === getHash(inputString.slice(i, i+subString.length))) {
-        for (let j = 0; j < subString.length; j++) {
-            if (subString.charAt(j) !== inputString.charAt(j+i)) {
-                flag = 1
+        flag = 0;
+        let j = 0;
+        while (j < subString.length) {
+            if (subString.charAt(j) !== inputString.charAt(i+j)) {
+                flag = 1;
+                break;
             }
+            j++;
         }
-    } else
-        flag = 1
+    }
     if (flag === 0)
-        console.log(i+1)
+        console.log(i+1);
 }
